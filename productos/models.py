@@ -29,7 +29,6 @@ class DetalleProducto(models.Model):
     detalles = models.TextField()    
     dimensiones = models.CharField(max_length=100)
     peso = models.DecimalField(max_digits=10, decimal_places=2)
-    imagen_url = models.URLField(null=True, blank=True)
-
+    imagen = models.ImageField(upload_to='productos/', null=True, blank=True)
     def __str__(self):
         return f"Detalles de {self.producto.nombre}"
