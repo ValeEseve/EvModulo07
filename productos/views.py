@@ -1,11 +1,26 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth import logout
 
 # Create your views here.
 
 def inicio(request):
     return render(request, 'inicio.html')
+
+# USUARIO
+def login_usuario(request):
+    return render(request, 'login.html')
+
+@login_required
+def logout_usuario(request):
+    logout()
+    return redirect('inicio')
+
+@login_required
+def perfil_usuario(request):
+    return render(request, 'perfil_usuario.html', {'usuario': request.user})
+
+
 
 # PRODUCTOS
 def lista_productos(request):
@@ -53,11 +68,6 @@ def eliminar_producto(request, pk):
         return redirect('lista_productos')
     return render(request, 'eliminar_producto.html', {'producto': producto})
 
-
-# USUARIO
-@login_required
-def perfil_usuario(request):
-    return render(request, 'perfil_usuario.html', {'usuario': request.user})
 
 # CATEGORIAS
 def lista_categorias(request):
