@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+{% block title %}Mi Perfil - Apothecaria{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold">
+            <i class="fas fa-user-circle me-3"></i>Mi Perfil de Alquimista
+        </h1>
+        <p class="lead">Gestiona tu información y actividad</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- User Profile Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg">
+                <div class="card-body text-center p-4">
+                    <div class="mb-4">
+                        <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center" 
+                             style="width: 120px; height: 120px;">
+                            <i class="fas fa-user fa-4x text-white"></i>
+                        </div>
+                    </div>
+                    
+                    <h3 class="fw-bold mb-2">{{ usuario.username }}</h3>
+                    
+                    {% if usuario.email %}
+                    <p class="text-muted mb-3">
+                        <i class="fas fa-envelope me-2"></i>{{ usuario.email }}
+                    </p>
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        {% if usuario.is_staff %}
+                        <span class="badge bg-warning text-dark p-2">
+                            <i class="fas fa-crown me-1"></i>Administrador
+                        </span>
+                        {% else %}
+                        <span class="badge bg-primary p-2">
+                            <i class="fas fa-flask me-1"></i>Alquimista
+                        </span>
+                        {% endif %}
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="text-start">
+                        <p class="mb-2">
+                            <i class="fas fa-calendar-alt text-primary me-2"></i>
+                            <small>Miembro desde: {{ usuario.date_joined|date:"d/m/Y" }}</small>
+                        </p>
+                        <p class="mb-0">
+                            <i class="fas fa-clock text-success me-2"></i>
+                            <small>Último acceso: {{ usuario.last_login|date:"d/m/Y H:i" }}</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics & Actions -->
+        <div class="col-md-8">
+            <!-- Statistics Cards -->
+            <div class="row mb-4">
+                <div class="col-md-4 mb-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body text-center">
+                            <i class="fas fa-vials fa-2x mb-2"></i>
+                            <h3 class="fw-bold mb-0">{{ usuario.producto_set.count|default:"0" }}</h3>
+                            <small>Productos Creados</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body text-center">
+                            <i class="fas fa-folder fa-2x mb-2"></i>
+                            <h3 class="fw-bold mb-0">{{ usuario.categoria_set.count|default:"0" }}</h3>
+                            <small>Categorías</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                    <div class="card bg-info text-white">
+                        <div class="card-body text-center">
+                            <i class="fas fa-tags fa-2x mb-2"></i>
+                            <h3 class="fw-bold mb-0">{{ usuario.etiqueta_set.count|default:"0" }}</h3>
+                            <small>Etiquetas</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card shadow-lg mb-4">
+                <div class="card-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <h4 class="mb-0 text-white">
+                        <i class="fas fa-bolt me-2"></i>Acciones Rápidas
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <a href="{% url 'crear_producto' %}" class="btn btn-primary w-100">
+                                <i class="fas fa-plus-circle me-2"></i>Crear Producto
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{% url 'crear_categoria' %}" class="btn btn-success w-100">
+                                <i class="fas fa-folder-plus me-2"></i>Crear Categoría
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{% url 'crear_etiqueta' %}" class="btn btn-info w-100">
+                                <i class="fas fa-tag me-2"></i>Crear Etiqueta
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{% url 'lista_productos' %}" class="btn btn-outline-primary w-100">
+                                <i class="fas fa-list me-2"></i>Ver Productos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Information -->
+            <div class="card shadow-lg">
+                <div class="card-header" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <h4 class="mb-0 text-white">
+                        <i class="fas fa-info-circle me-2"></i>Información de la Cuenta
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <strong><i class="fas fa-user text-primary me-2"></i>Nombre de usuario:</strong>
+                            <p class="mb-0">{{ usuario.username }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong><i class="fas fa-envelope text-info me-2"></i>Email:</strong>
+                            <p class="mb-0">{{ usuario.email|default:"No especificado" }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong><i class="fas fa-id-card text-warning me-2"></i>Nombre:</strong>
+                            <p class="mb-0">{{ usuario.first_name|default:"No especificado" }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong><i class="fas fa-id-card text-success me-2"></i>Apellido:</strong>
+                            <p class="mb-0">{{ usuario.last_name|default:"No especificado" }}</p>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="text-center">
+                        <a href="{% url 'logout_usuario' %}" class="btn btn-danger">
+                            <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

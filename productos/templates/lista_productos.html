@@ -1,5 +1,123 @@
 {% extends 'base.html' %}
 
+{% block title %}Productos - Apothecaria{% endblock %}
+
 {% block content %}
-    
+<div class="page-header">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold">
+            <i class="fas fa-vials me-3"></i>Catálogo de Productos
+        </h1>
+        <p class="lead">Explora nuestra colección de pociones e insumos alquímicos</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div>
+                    <h4 class="mb-0">
+                        <span class="badge bg-primary">{{ productos|length }}</span> 
+                        Productos disponibles
+                    </h4>
+                </div>
+                {% if user.is_authenticated %}
+                <div>
+                    <a href="{% url 'crear_producto' %}" class="btn btn-primary">
+                        <i class="fas fa-plus-circle me-2"></i>Agregar Producto
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% if productos %}
+    <div class="row">
+        {% for producto in productos %}
+        <div class="col-md-4 col-lg-3 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        {% if producto.detalleproducto.imagen %}
+                        <img src="{{ producto.detalleproducto.imagen.url }}" 
+                             alt="{{ producto.nombre }}" 
+                             class="img-fluid rounded" 
+                             style="max-height: 150px; object-fit: cover;">
+                        {% else %}
+                        <div class="bg-light rounded d-flex align-items-center justify-content-center" 
+                             style="height: 150px;">
+                            <i class="fas fa-flask fa-4x text-muted"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <h5 class="card-title fw-bold">
+                        <i class="fas fa-vial text-primary me-2"></i>{{ producto.nombre }}
+                    </h5>
+                    
+                    <p class="card-text text-muted small">
+                        {{ producto.descripcion|truncatewords:15 }}
+                    </p>
+                    
+                    <div class="mb-3">
+                        <span class="badge bg-info">
+                            <i class="fas fa-folder me-1"></i>{{ producto.categoria.nombre }}
+                        </span>
+                        {% for etiqueta in producto.etiquetas.all|slice:":2" %}
+                        <span class="badge bg-secondary">
+                            <i class="fas fa-tag me-1"></i>{{ etiqueta.nombre }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="h4 mb-0 text-success fw-bold">
+                            ${{ producto.precio }}
+                        </span>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'detalle_producto' producto.pk %}" 
+                           class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-eye me-2"></i>Ver Detalles
+                        </a>
+                        {% if user.is_authenticated %}
+                        <div class="btn-group btn-group-sm">
+                            <a href="{% url 'editar_producto' producto.pk %}" 
+                               class="btn btn-outline-warning">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <a href="{% url 'eliminar_producto' producto.pk %}" 
+                               class="btn btn-outline-danger">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card text-center py-5">
+                <div class="card-body">
+                    <i class="fas fa-flask-vial fa-4x text-muted mb-3"></i>
+                    <h3>No hay productos disponibles</h3>
+                    <p class="text-muted">Comienza agregando tu primer producto alquímico</p>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'crear_producto' %}" class="btn btn-primary mt-3">
+                        <i class="fas fa-plus-circle me-2"></i>Agregar Primer Producto
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
 {% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear Etiqueta - Apothecaria{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'lista_etiquetas' %}">Etiquetas</a></li>
+            <li class="breadcrumb-item active">Crear Etiqueta</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <h3 class="mb-0">
+                        <i class="fas fa-tag me-2"></i>Nueva Etiqueta
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label for="id_nombre" class="form-label fw-bold">
+                                <i class="fas fa-tag text-secondary me-2"></i>Nombre de la Etiqueta
+                            </label>
+                            <input type="text" name="nombre" class="form-control" id="id_nombre" placeholder="Ej: Raro, Popular, Nuevo" required>
+                            {% if form.nombre.errors %}
+                            <div class="text-danger mt-2">{{ form.nombre.errors }}</div>
+                            {% endif %}
+                            <small class="form-text text-muted">
+                                Usa nombres cortos y descriptivos
+                            </small>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save me-2"></i>Crear Etiqueta
+                            </button>
+                            <a href="{% url 'lista_etiquetas' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times me-2"></i>Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4 border-info">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-lightbulb text-warning me-2"></i>Sugerencias de Etiquetas
+                    </h5>
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <span class="badge bg-secondary p-2">
+                            <i class="fas fa-fire me-1"></i>Potente
+                        </span>
+                        <span class="badge bg-secondary p-2">
+                            <i class="fas fa-star me-1"></i>Popular
+                        </span>
+                        <span class="badge bg-secondary p-2">
+                            <i class="fas fa-gem me-1"></i>Raro
+                        </span>
+                        <span class="badge bg-secondary p-2">
+                            <i class="fas fa-leaf me-1"></i>Natural
+                        </span>
+                        <span class="badge bg-secondary p-2">
+                            <i class="fas fa-bolt me-1"></i>Rápido
+                        </span>
+                        <span class="badge bg-secondary p-2">
+                            <i class="fas fa-shield-alt me-1"></i>Protección
+                        </span>
+                        <span class="badge bg-secondary p-2">
+                            <i class="fas fa-magic me-1"></i>Místico
+                        </span>
+                        <span class="badge bg-secondary p-2">
+                            <i class="fas fa-moon me-1"></i>Nocturno
+                        </span>
+                    </div>
+                    <p class="mb-0 small text-muted">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Las etiquetas ayudan a clasificar y encontrar productos fácilmente
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    input[type="text"] {
+        border-radius: 10px;
+        border: 2px solid #e9ecef;
+        padding: 12px;
+        transition: all 0.3s;
+        font-size: 1.1rem;
+    }
+    
+    input[type="text"]:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+</style>
+{% endblock %}

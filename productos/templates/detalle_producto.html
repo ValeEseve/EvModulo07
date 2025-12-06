@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ producto.nombre }} - Apothecaria{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'lista_productos' %}">Productos</a></li>
+            <li class="breadcrumb-item active">{{ producto.nombre }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-5 mb-4">
+            <div class="card">
+                <div class="card-body text-center p-4">
+                    {% if producto.detalleproducto.imagen %}
+                    <img src="{{ producto.detalleproducto.imagen.url }}" 
+                         alt="{{ producto.nombre }}" 
+                         class="img-fluid rounded shadow-sm"
+                         style="max-height: 400px; object-fit: contain;">
+                    {% else %}
+                    <div class="bg-light rounded d-flex align-items-center justify-content-center" 
+                         style="height: 400px;">
+                        <i class="fas fa-flask fa-10x text-muted"></i>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-body p-4">
+                    <h1 class="display-5 fw-bold mb-3">
+                        <i class="fas fa-vial text-primary me-2"></i>{{ producto.nombre }}
+                    </h1>
+                    
+                    <div class="mb-4">
+                        <span class="h2 text-success fw-bold">
+                            ${{ producto.precio }}
+                        </span>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5 class="fw-bold">
+                            <i class="fas fa-info-circle text-info me-2"></i>Descripción
+                        </h5>
+                        <p class="lead">{{ producto.descripcion }}</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5 class="fw-bold">
+                            <i class="fas fa-folder text-warning me-2"></i>Categoría
+                        </h5>
+                        <span class="badge bg-info fs-6">
+                            <i class="fas fa-tag me-1"></i>{{ producto.categoria.nombre }}
+                        </span>
+                    </div>
+
+                    {% if producto.etiquetas.all %}
+                    <div class="mb-4">
+                        <h5 class="fw-bold">
+                            <i class="fas fa-tags text-secondary me-2"></i>Etiquetas
+                        </h5>
+                        {% for etiqueta in producto.etiquetas.all %}
+                        <span class="badge bg-secondary me-2 mb-2">
+                            <i class="fas fa-tag me-1"></i>{{ etiqueta.nombre }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                    <hr class="my-4">
+                    <div class="d-grid gap-2 d-md-flex">
+                        <a href="{% url 'editar_producto' producto.pk %}" 
+                           class="btn btn-warning">
+                            <i class="fas fa-edit me-2"></i>Editar Producto
+                        </a>
+                        <a href="{% url 'eliminar_producto' producto.pk %}" 
+                           class="btn btn-danger">
+                            <i class="fas fa-trash me-2"></i>Eliminar
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if producto.detalleproducto %}
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <h4 class="mb-0 text-white">
+                        <i class="fas fa-clipboard-list me-2"></i>Detalles Técnicos
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <h5 class="fw-bold">
+                                <i class="fas fa-scroll text-primary me-2"></i>Información Adicional
+                            </h5>
+                            <p>{{ producto.detalleproducto.detalles }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-ruler-combined fa-2x text-primary mb-2"></i>
+                                    <h6 class="fw-bold">Dimensiones</h6>
+                                    <p class="mb-0">{{ producto.detalleproducto.dimensiones }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-weight fa-2x text-success mb-2"></i>
+                                    <h6 class="fw-bold">Peso</h6>
+                                    <p class="mb-0">{{ producto.detalleproducto.peso }} kg</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-certificate fa-2x text-warning mb-2"></i>
+                                    <h6 class="fw-bold">Estado</h6>
+                                    <p class="mb-0">Certificado ✓</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row mt-4 mb-5">
+        <div class="col-md-12">
+            <a href="{% url 'lista_productos' %}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Volver a Productos
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

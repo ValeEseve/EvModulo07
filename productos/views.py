@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
+from django.contrib.auth import logout, authenticate, login
+from django.contrib import messages
 
 # Create your views here.
 
@@ -9,11 +10,25 @@ def inicio(request):
 
 # USUARIO
 def login_usuario(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            login(request, user)
+            messages.success(request, f'¡Bienvenido de vuelta, {user.username}!')
+            return redirect('inicio')
+        else:
+            messages.error(request, 'Usuario o contraseña incorrectos')
+    
     return render(request, 'login.html')
 
 @login_required
 def logout_usuario(request):
-    logout()
+    logout(request)
+    messages.info(request, 'Has cerrado sesión correctamente')
     return redirect('inicio')
 
 @login_required
@@ -30,7 +45,8 @@ def lista_productos(request):
 
 def detalle_producto(request, pk):
     from .models import Producto
-    producto = Producto.objects.get(pk=pk)
+    from django.shortcuts import get_object_or_404
+    producto = get_object_or_404(Producto, pk=pk)
     return render(request, 'detalle_producto.html', {'producto': producto})
 
 @login_required
@@ -40,6 +56,7 @@ def crear_producto(request):
         form = ProductoForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Producto creado exitosamente')
             return redirect('lista_productos')
     else:
         form = ProductoForm()
@@ -49,11 +66,13 @@ def crear_producto(request):
 def editar_producto(request, pk):
     from .models import Producto
     from .forms import ProductoForm
-    producto = Producto.objects.get(pk=pk)
+    from django.shortcuts import get_object_or_404
+    producto = get_object_or_404(Producto, pk=pk)
     if request.method == 'POST':
         form = ProductoForm(request.POST, instance=producto)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Producto actualizado exitosamente')
             return redirect('detalle_producto', pk=producto.pk)
     else:
         form = ProductoForm(instance=producto)
@@ -62,9 +81,11 @@ def editar_producto(request, pk):
 @login_required
 def eliminar_producto(request, pk):
     from .models import Producto
-    producto = Producto.objects.get(pk=pk)
+    from django.shortcuts import get_object_or_404
+    producto = get_object_or_404(Producto, pk=pk)
     if request.method == 'POST':
         producto.delete()
+        messages.success(request, 'Producto eliminado exitosamente')
         return redirect('lista_productos')
     return render(request, 'eliminar_producto.html', {'producto': producto})
 
@@ -82,6 +103,7 @@ def crear_categoria(request):
         form = CategoriaForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Categoría creada exitosamente')
             return redirect('lista_categorias')
     else:
         form = CategoriaForm()
@@ -91,11 +113,13 @@ def crear_categoria(request):
 def editar_categoria(request, pk):
     from .models import Categoria
     from .forms import CategoriaForm
-    categoria = Categoria.objects.get(pk=pk)
+    from django.shortcuts import get_object_or_404
+    categoria = get_object_or_404(Categoria, pk=pk)
     if request.method == 'POST':
         form = CategoriaForm(request.POST, instance=categoria)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Categoría actualizada exitosamente')
             return redirect('lista_categorias')
     else:
         form = CategoriaForm(instance=categoria)
@@ -104,9 +128,11 @@ def editar_categoria(request, pk):
 @login_required
 def eliminar_categoria(request, pk):
     from .models import Categoria
-    categoria = Categoria.objects.get(pk=pk)
+    from django.shortcuts import get_object_or_404
+    categoria = get_object_or_404(Categoria, pk=pk)
     if request.method == 'POST':
         categoria.delete()
+        messages.success(request, 'Categoría eliminada exitosamente')
         return redirect('lista_categorias')
     return render(request, 'eliminar_categoria.html', {'categoria': categoria})
 
@@ -123,6 +149,7 @@ def crear_etiqueta(request):
         form = EtiquetaForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Etiqueta creada exitosamente')
             return redirect('lista_etiquetas')
     else:
         form = EtiquetaForm()
@@ -132,11 +159,13 @@ def crear_etiqueta(request):
 def editar_etiqueta(request, pk):
     from .models import Etiqueta
     from .forms import EtiquetaForm
-    etiqueta = Etiqueta.objects.get(pk=pk)
+    from django.shortcuts import get_object_or_404
+    etiqueta = get_object_or_404(Etiqueta, pk=pk)
     if request.method == 'POST':
         form = EtiquetaForm(request.POST, instance=etiqueta)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Etiqueta actualizada exitosamente')
             return redirect('lista_etiquetas')
     else:
         form = EtiquetaForm(instance=etiqueta)
@@ -145,11 +174,10 @@ def editar_etiqueta(request, pk):
 @login_required
 def eliminar_etiqueta(request, pk):
     from .models import Etiqueta
-    etiqueta = Etiqueta.objects.get(pk=pk)
+    from django.shortcuts import get_object_or_404
+    etiqueta = get_object_or_404(Etiqueta, pk=pk)
     if request.method == 'POST':
         etiqueta.delete()
+        messages.success(request, 'Etiqueta eliminada exitosamente')
         return redirect('lista_etiquetas')
     return render(request, 'eliminar_etiqueta.html', {'etiqueta': etiqueta})
-
-
-

@@ -1,13 +1,155 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block title %}Inicio - Apothecaria{% endblock %}
+
 {% block content %}
-<div class="bg-primary text-white p-5 text-center">
-    <h1 class="text-light">¡Hola, Mundo!</h1>
-    <p>WELCOME TO APOTECARIA</p>
-    <button class="btn btn-light">SHOP</button>
-    <div class="container-fluid p-0 mt-5">
-        <img src="{% static 'productos/img/hero.png' %}" class="img-fluid w-100" alt="Hero">
+<!-- Hero Section -->
+<div class="page-header text-center">
+    <div class="container">
+        <h1 class="display-3 fw-bold mb-3">
+            <i class="fas fa-flask-vial me-3"></i>Bienvenido a Apothecaria
+        </h1>
+        <p class="lead mb-4">Descubre el arte ancestral de la alquimia con ingredientes de la más alta calidad</p>
+        <a href="{% url 'lista_productos' %}" class="btn btn-light btn-lg">
+            <i class="fas fa-shopping-bag me-2"></i>Explorar Productos
+        </a>
     </div>
 </div>
 
+<!-- Hero Image -->
+<div class="container-fluid p-0 mb-5">
+    <img src="{% static 'productos/img/hero.png' %}" class="img-fluid w-100" alt="Apothecaria Hero" style="max-height: 500px; object-fit: cover;">
+</div>
+
+<div class="container">
+    <!-- Features Section -->
+    <div class="row mb-5">
+        <div class="col-md-4 mb-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <i class="fas fa-vial fa-3x text-primary"></i>
+                    </div>
+                    <h4 class="card-title">Pociones Exclusivas</h4>
+                    <p class="card-text">Fórmulas secretas desarrolladas por maestros alquimistas con siglos de experiencia</p>
+                    <a href="{% url 'lista_productos' %}" class="btn btn-outline-primary">
+                        Ver Pociones <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <i class="fas fa-seedling fa-3x text-success"></i>
+                    </div>
+                    <h4 class="card-title">Insumos Naturales</h4>
+                    <p class="card-text">Ingredientes orgánicos seleccionados de las regiones más místicas del mundo</p>
+                    <a href="{% url 'lista_productos' %}" class="btn btn-outline-success">
+                        Ver Insumos <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <i class="fas fa-certificate fa-3x text-warning"></i>
+                    </div>
+                    <h4 class="card-title">Calidad Garantizada</h4>
+                    <p class="card-text">Cada producto es verificado y certificado por el Consejo de Alquimistas</p>
+                    <a href="{% url 'lista_categorias' %}" class="btn btn-outline-warning">
+                        Ver Categorías <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <div class="card-body text-white">
+                    <div class="row text-center">
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <h2 class="fw-bold"><i class="fas fa-flask me-2"></i>500+</h2>
+                            <p class="mb-0">Pociones Únicas</p>
+                        </div>
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <h2 class="fw-bold"><i class="fas fa-leaf me-2"></i>1000+</h2>
+                            <p class="mb-0">Ingredientes Raros</p>
+                        </div>
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <h2 class="fw-bold"><i class="fas fa-users me-2"></i>10k+</h2>
+                            <p class="mb-0">Alquimistas Satisfechos</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h2 class="fw-bold"><i class="fas fa-star me-2"></i>4.9/5</h2>
+                            <p class="mb-0">Calificación Promedio</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories Preview -->
+    <div class="row mb-5">
+        <div class="col-md-12 mb-4 text-center">
+            <h2 class="fw-bold">Explora Nuestras Categorías</h2>
+            <p class="text-muted">Encuentra exactamente lo que necesitas para tus experimentos alquímicos</p>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <i class="fas fa-fire text-danger me-2"></i>Pociones de Fuego
+                    </h4>
+                    <p class="card-text">Elixires inflamables y brebajes de poder ardiente para los más osados</p>
+                    <span class="badge-alchemy">Popular</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <i class="fas fa-heart text-danger me-2"></i>Pociones de Curación
+                    </h4>
+                    <p class="card-text">Remedios mágicos para restaurar la vitalidad y curar heridas</p>
+                    <span class="badge-alchemy">Destacado</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <div class="card text-center" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <div class="card-body text-white py-5">
+                    <h2 class="fw-bold mb-3">¿Listo para comenzar tu viaje alquímico?</h2>
+                    <p class="lead mb-4">Únete a nuestra comunidad de alquimistas y descubre secretos milenarios</p>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'crear_producto' %}" class="btn btn-light btn-lg">
+                        <i class="fas fa-plus-circle me-2"></i>Crear Nuevo Producto
+                    </a>
+                    {% else %}
+                    <a href="{% url 'login_usuario' %}" class="btn btn-light btn-lg">
+                        <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

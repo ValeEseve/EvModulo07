@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar {{ form.instance.nombre }} - Apothecaria{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'lista_productos' %}">Productos</a></li>
+            <li class="breadcrumb-item active">Editar {{ form.instance.nombre }}</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header text-white" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <h3 class="mb-0">
+                        <i class="fas fa-edit me-2"></i>Editar Producto Alquímico
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label for="id_nombre" class="form-label fw-bold">
+                                <i class="fas fa-vial text-primary me-2"></i>Nombre del Producto
+                            </label>
+                            <input type="text" name="nombre" class="form-control" id="id_nombre" value="{{ form.instance.nombre }}" required>
+                            {% if form.nombre.errors %}
+                            <div class="text-danger mt-2">{{ form.nombre.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="id_descripcion" class="form-label fw-bold">
+                                <i class="fas fa-align-left text-info me-2"></i>Descripción
+                            </label>
+                            <textarea name="descripcion" class="form-control" id="id_descripcion" rows="4" required>{{ form.instance.descripcion }}</textarea>
+                            {% if form.descripcion.errors %}
+                            <div class="text-danger mt-2">{{ form.descripcion.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="id_precio" class="form-label fw-bold">
+                                    <i class="fas fa-dollar-sign text-success me-2"></i>Precio
+                                </label>
+                                <input type="number" name="precio" step="0.01" class="form-control" id="id_precio" value="{{ form.instance.precio }}" required>
+                                {% if form.precio.errors %}
+                                <div class="text-danger mt-2">{{ form.precio.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label for="id_categoria" class="form-label fw-bold">
+                                    <i class="fas fa-folder text-warning me-2"></i>Categoría
+                                </label>
+                                <select name="categoria" class="form-control" id="id_categoria" required>
+                                    {{ form.categoria }}
+                                </select>
+                                {% if form.categoria.errors %}
+                                <div class="text-danger mt-2">{{ form.categoria.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-tags text-secondary me-2"></i>Etiquetas
+                            </label>
+                            <div class="card bg-light p-3">
+                                <div class="row">
+                                    {{ form.etiquetas }}
+                                </div>
+                            </div>
+                            {% if form.etiquetas.errors %}
+                            <div class="text-danger mt-2">{{ form.etiquetas.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                            <a href="{% url 'detalle_producto' form.instance.pk %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Volver
+                            </a>
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'lista_productos' %}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-times me-2"></i>Cancelar
+                                </a>
+                                <button type="submit" class="btn btn-warning text-white btn-lg">
+                                    <i class="fas fa-save me-2"></i>Guardar Cambios
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4 border-warning">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-exclamation-triangle text-warning me-2"></i>Importante
+                    </h5>
+                    <p class="mb-0">Los cambios que realices se aplicarán inmediatamente. Asegúrate de verificar toda la información antes de guardar.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+        border-radius: 10px;
+        border: 2px solid #e9ecef;
+        padding: 12px;
+        transition: all 0.3s;
+    }
+    
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    textarea:focus,
+    select:focus {
+        border-color: #f5576c;
+        box-shadow: 0 0 0 0.2rem rgba(245, 87, 108, 0.25);
+    }
+    
+    textarea {
+        min-height: 120px;
+    }
+</style>
+{% endblock %}
