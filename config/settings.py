@@ -155,5 +155,5 @@ MESSAGE_TAGS = {
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://apothecaria.railway.app',
+    'https://apothecaria.up.railway.app',
 ]
